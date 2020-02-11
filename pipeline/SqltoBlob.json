@@ -1,0 +1,522 @@
+{
+	"name": "SqltoBlob",
+	"properties": {
+		"activities": [
+			{
+				"name": "ForEach_4ue",
+				"type": "ForEach",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@pipeline().parameters.cw_items",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Copy_4ue",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [
+								{
+									"name": "Source",
+									"value": "@{item().source.schema}.@{item().source.table}"
+								},
+								{
+									"name": "Destination",
+									"value": "practicedb//@{item().destination.fileName}"
+								}
+							],
+							"typeProperties": {
+								"source": {
+									"type": "AzureSqlSource"
+								},
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobStorageWriteSettings",
+										"blockSizeInMB": 4
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"parallelCopies": 1
+							},
+							"inputs": [
+								{
+									"referenceName": "SourceDataset_4ue",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_schema": "@item().source.schema",
+										"cw_table": "@item().source.table"
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "DestinationDataset_4ue",
+									"type": "DatasetReference",
+									"parameters": {
+										"cw_fileName": "@item().destination.fileName"
+									}
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"cw_items": {
+				"type": "Array",
+				"defaultValue": [
+					{
+						"source": {
+							"schema": "Application",
+							"table": "Cities"
+						},
+						"destination": {
+							"fileName": "ApplicationCities.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "Cities_Archive"
+						},
+						"destination": {
+							"fileName": "ApplicationCities_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "Countries"
+						},
+						"destination": {
+							"fileName": "ApplicationCountries.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "Countries_Archive"
+						},
+						"destination": {
+							"fileName": "ApplicationCountries_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "DeliveryMethods"
+						},
+						"destination": {
+							"fileName": "ApplicationDeliveryMethods.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "DeliveryMethods_Archive"
+						},
+						"destination": {
+							"fileName": "ApplicationDeliveryMethods_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "PaymentMethods"
+						},
+						"destination": {
+							"fileName": "ApplicationPaymentMethods.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "PaymentMethods_Archive"
+						},
+						"destination": {
+							"fileName": "ApplicationPaymentMethods_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "People"
+						},
+						"destination": {
+							"fileName": "ApplicationPeople.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "People_Archive"
+						},
+						"destination": {
+							"fileName": "ApplicationPeople_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "StateProvinces"
+						},
+						"destination": {
+							"fileName": "ApplicationStateProvinces.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "StateProvinces_Archive"
+						},
+						"destination": {
+							"fileName": "ApplicationStateProvinces_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "SystemParameters"
+						},
+						"destination": {
+							"fileName": "ApplicationSystemParameters.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "TransactionTypes"
+						},
+						"destination": {
+							"fileName": "ApplicationTransactionTypes.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Application",
+							"table": "TransactionTypes_Archive"
+						},
+						"destination": {
+							"fileName": "ApplicationTransactionTypes_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Purchasing",
+							"table": "PurchaseOrderLines"
+						},
+						"destination": {
+							"fileName": "PurchasingPurchaseOrderLines.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Purchasing",
+							"table": "PurchaseOrders"
+						},
+						"destination": {
+							"fileName": "PurchasingPurchaseOrders.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Purchasing",
+							"table": "SupplierCategories"
+						},
+						"destination": {
+							"fileName": "PurchasingSupplierCategories.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Purchasing",
+							"table": "SupplierCategories_Archive"
+						},
+						"destination": {
+							"fileName": "PurchasingSupplierCategories_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Purchasing",
+							"table": "Suppliers"
+						},
+						"destination": {
+							"fileName": "PurchasingSuppliers.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Purchasing",
+							"table": "Suppliers_Archive"
+						},
+						"destination": {
+							"fileName": "PurchasingSuppliers_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Purchasing",
+							"table": "SupplierTransactions"
+						},
+						"destination": {
+							"fileName": "PurchasingSupplierTransactions.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "BuyingGroups"
+						},
+						"destination": {
+							"fileName": "SalesBuyingGroups.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "BuyingGroups_Archive"
+						},
+						"destination": {
+							"fileName": "SalesBuyingGroups_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "CustomerCategories"
+						},
+						"destination": {
+							"fileName": "SalesCustomerCategories.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "CustomerCategories_Archive"
+						},
+						"destination": {
+							"fileName": "SalesCustomerCategories_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "Customers"
+						},
+						"destination": {
+							"fileName": "SalesCustomers.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "Customers_Archive"
+						},
+						"destination": {
+							"fileName": "SalesCustomers_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "CustomerTransactions"
+						},
+						"destination": {
+							"fileName": "SalesCustomerTransactions.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "InvoiceLines"
+						},
+						"destination": {
+							"fileName": "SalesInvoiceLines.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "Invoices"
+						},
+						"destination": {
+							"fileName": "SalesInvoices.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "OrderLines"
+						},
+						"destination": {
+							"fileName": "SalesOrderLines.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "Orders"
+						},
+						"destination": {
+							"fileName": "SalesOrders.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Sales",
+							"table": "SpecialDeals"
+						},
+						"destination": {
+							"fileName": "SalesSpecialDeals.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "ColdRoomTemperatures"
+						},
+						"destination": {
+							"fileName": "WarehouseColdRoomTemperatures.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "ColdRoomTemperatures_Archive"
+						},
+						"destination": {
+							"fileName": "WarehouseColdRoomTemperatures_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "Colors"
+						},
+						"destination": {
+							"fileName": "WarehouseColors.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "Colors_Archive"
+						},
+						"destination": {
+							"fileName": "WarehouseColors_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "PackageTypes"
+						},
+						"destination": {
+							"fileName": "WarehousePackageTypes.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "PackageTypes_Archive"
+						},
+						"destination": {
+							"fileName": "WarehousePackageTypes_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "StockGroups"
+						},
+						"destination": {
+							"fileName": "WarehouseStockGroups.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "StockGroups_Archive"
+						},
+						"destination": {
+							"fileName": "WarehouseStockGroups_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "StockItemHoldings"
+						},
+						"destination": {
+							"fileName": "WarehouseStockItemHoldings.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "StockItems"
+						},
+						"destination": {
+							"fileName": "WarehouseStockItems.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "StockItems_Archive"
+						},
+						"destination": {
+							"fileName": "WarehouseStockItems_Archive.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "StockItemStockGroups"
+						},
+						"destination": {
+							"fileName": "WarehouseStockItemStockGroups.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "StockItemTransactions"
+						},
+						"destination": {
+							"fileName": "WarehouseStockItemTransactions.csv"
+						}
+					},
+					{
+						"source": {
+							"schema": "Warehouse",
+							"table": "VehicleTemperatures"
+						},
+						"destination": {
+							"fileName": "WarehouseVehicleTemperatures.csv"
+						}
+					}
+				]
+			}
+		},
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
